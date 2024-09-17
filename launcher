@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Check if the correct number of arguments is provided
+# Vérifier si nombre correct d'arguments
 if [ $# -lt 2 ] || [ $# -gt 3 ]; then
     echo "Usage: $0 [-i|--interactive|-a|--automatic] image [database_path]"
     exit 1
 fi
 
-# Parse command line arguments
+# Analyse les arguments de command line
 mode=""
 image_to_compare="$2"
 database_path="$3"
@@ -28,25 +28,25 @@ while [[ $# -gt 0 ]]; do
 done
 
 
-# Initialize database_path to "img/" if not provided
+# Initialiser la database-path à "img/" si elle n'est pas fournie
 if [ -z "$database_path" ]; then
     database_path="img/"
 fi
 
-# Add a trailing "/" to database_path if it doesn't have one
+# Ajouter un "/" à database_path s'il n'y en a pas
 if [ ! -z "$database_path" ] && [ "${database_path: -1}" != "/" ]; then
     database_path="$database_path/"
 fi
 
-# Check if the specified database path is a directory
+# Vérifier si le chemin de la base de donnée est un fichier
 if [ ! -d "$database_path" ]; then
     echo "The specified database path is not a directory." >&2
     exit 2
 fi
 
-# Modify the $PATH variable to include the img-dist directory
+# Modifier la variable $PATH pour inclure le fichier img-dist
 export PATH="$PATH:$(pwd)/img-dist/"
 
-# Run img-search with the provided mode, image, and database path
+# Exécuter img-search avec le mode, l'image et le chemin indiqués
 ./img-search "$mode" "$image_to_compare" "$database_path"
 
